@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+
+<mapper namespace="kr.co.recotrip.dao.DiaryReplyDAO">
+	<!-- 내가 한 부분 -->
+	
+	<select id="commentList" resultType="diaryReply">
+		select * from (select ROWNUM rnum, A.* from (select * from t2_diary_reply where diary_number=#{param1} order by reply_num desc) A)
+		 where rnum between #{param2} and #{param3}
+	</select>
+	
+	<insert id="commentWrite" parameterType="String">
+		insert into t2_diary_reply (reply_num,diary_number,id,reply_content,reply_reg_date) values
+		 (t2_diary_reply_seq.NEXTVAL,#{param2},#{param1},#{param3},sysdate)
+	</insert>
+	
+	<select id="commentCount" resultType="int">
+		select count(*) from t2_diary_reply where diary_number=#{param1}
+	</select>
+	
+	<update id="commentUpdate" parameterType="String">
+		update t2_diary_reply set reply_content=#{param2} where reply_num=#{param1}
+	</update>
+	
+	<delete id="commentDelete" parameterType="String">
+		delete t2_diary_reply where reply_num=#{param1}
+	</delete>
+	
+</mapper>

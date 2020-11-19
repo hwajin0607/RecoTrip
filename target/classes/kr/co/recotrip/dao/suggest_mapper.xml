@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.recotrip.dao.SuggestDAO">
+		
+		<select id="ask_list" resultType="kr.co.recotrip.dto.SuggestDTO">
+		SELECT * FROM t2_ASK ORDER BY ask_num DESC
+		</select>
+		
+		
+		<insert id="ask_write" parameterType="kr.co.recotrip.dto.SuggestDTO">
+			insert into t2_ASK (ask_num, id, ask_subject, ask_content, ask_sort) 
+			VALUES(t2_ask_seq.NEXTVAL,#{id},#{ask_subject},#{ask_content}, #{ask_sort}) 
+		</insert>
+		
+		<update id="update">
+			UPDATE t2_ASK SET ask_content= #{param2} WHERE ask_num = #{param1}
+		</update>
+		
+		<select id="ask_detail" resultType="kr.co.recotrip.dto.SuggestDTO">
+			SELECT * FROM t2_ASK WHERE ask_num = #{param1}
+		</select>
+	
+		<delete id="delete">
+			DELETE FROM t2_ASK WHERE ask_num = #{param1}
+		</delete>
+		
+		<update id="answering" parameterType="hashMap">
+			INSERT INTO T2_ASK_ANSWER (answer_num, ask_num, answer_content, answer_reg_date)
+			VALUES (t2_ask_answer_seq.NEXTVAL, #{ask_num}, #{answer_content}, SYSDATE)
+		</update>
+		
+		<select id="answerList" resultType="kr.co.recotrip.dto.SuggestDTO">
+			SELECT * FROM T2_ASK_ANSWER WHERE ask_num=#{param1}
+		</select>
+		
+		<delete id="delAnswer">
+			DELETE FROM T2_ASK_ANSWER WHERE answer_num = #{param1}
+		</delete>
+</mapper>

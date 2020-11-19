@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 이 XML을 어떤 interface하고 연결할 것인가 -->
+<mapper namespace="kr.co.recotrip.dao.DiaryDAO">
+
+	<!-- 내가 한 부분 - 검색 기능 -->
+	<select id="tdList" resultType="diary">
+	
+		select * from (select ROWNUM rnum, A.* from (select * from t2_diary where diary_public=1 <include refid="search"/>order by diary_number desc) A)
+       where rnum between #{arg0.start} and #{arg0.end}
+		
+	</select>
+	
+	<sql id="search">
+		<choose>
+            <when test="param2 == 'all' ">
+                and  
+                      (id like '%'||#{param3}||'%'
+                      or diary_subject like '%' || #{param3}||'%'
+                      or diary_main like '%'||#{param3}||'%')
+            </when>
+            <when test="param2 == 'diary_subject' ">
+                and  
+                      (diary_subject like '%' || #{param3}||'%')
+            </when>
+            <when test="param2 == 'id' ">
+                and  
+                      (id like '%' || #{param3}||'%')
+            </when>
+            <when test="param2 == 'diary_main' ">
+                and  
+                       (diary_main like '%'||#{param3}||'%'
+                      or diary_content1 like '%' || #{param3}||'%'
+                      or diary_content2 like '%' || #{param3}||'%'
+                      or diary_content3 like '%' || #{param3}||'%'
+                      or diary_content4 like '%' || #{param3}||'%'
+                      or diary_content5 like '%' || #{param3}||'%')
+            </when>
+        </choose>
+	</sql>
+	
+	<select id="tdDetail" resultType="diary">
+	
+		SELECT * FROM t2_diary WHERE diary_number= #{idx}
+	
+	</select>
+	
+	 <select id="countBoard" resultType="int">
+		select count(*) from t2_diary where diary_public=1
+	</select>
+	 
+ 	<insert 
+		parameterType = "diary"
+		useGeneratedKeys = "true"
+		keyProperty = "diary_number"
+		keyColumn = "diary_number"
+		id="tdWrite">
+		INSERT INTO t2_diary (diary_number,id,diary_subject,diary_main,diary_content1,diary_reg_date,diary_public)
+		 VALUES(yu_seq.nextval,#{id},#{diary_subject},#{diary_main},#{diary_content1},#{diary_reg_date},#{diary_public})
+	</insert>
+	
+ 	<insert 
+		parameterType = "diary"
+		useGeneratedKeys = "true"
+		keyProperty = "diary_number"
+		keyColumn = "diary_number"
+		id="tdWrite2">
+		INSERT INTO t2_diary (diary_number,id,diary_subject,diary_main,diary_content1,diary_content2,diary_reg_date,diary_public)
+		 VALUES(yu_seq.nextval,#{id},#{diary_subject},#{diary_main},#{diary_content1},#{diary_content2},#{diary_reg_date},#{diary_public})
+	</insert>
+	
+ 	<insert 
+		parameterType = "diary"
+		useGeneratedKeys = "true"
+		keyProperty = "diary_number"
+		keyColumn = "diary_number"
+		id="tdWrite3">
+		INSERT INTO t2_diary (diary_number,id,diary_subject,diary_main,diary_content1,diary_content2,diary_content3,diary_reg_date,diary_public)
+		 VALUES(yu_seq.nextval,#{id},#{diary_subject},#{diary_main},#{diary_content1},#{diary_content2},#{diary_content3},#{diary_reg_date},#{diary_public})
+	</insert>
+	
+ 	<insert 
+		parameterType = "diary"
+		useGeneratedKeys = "true"
+		keyProperty = "diary_number"
+		keyColumn = "diary_number"
+		id="tdWrite4">
+		INSERT INTO t2_diary (diary_number,id,diary_subject,diary_main,diary_content1,diary_content2,diary_content3,diary_content4,diary_reg_date,diary_public)
+		 VALUES(yu_seq.nextval,#{id},#{diary_subject},#{diary_main},#{diary_content1},#{diary_content2},#{diary_content3},,#{diary_content4},#{diary_reg_date},#{diary_public})
+	</insert>	
+
+ 	<insert 
+		parameterType = "diary"
+		useGeneratedKeys = "true"
+		keyProperty = "diary_number"
+		keyColumn = "diary_number"
+		id="tdWrite5">
+		INSERT INTO t2_diary (diary_number,id,diary_subject,diary_main,diary_content1,diary_content2,diary_content3,diary_content4,diary_content5,diary_reg_date,diary_public)
+		 VALUES(yu_seq.nextval,#{id},#{diary_subject},#{diary_main},#{diary_content1},#{diary_content2},#{diary_content3},#{diary_content4},#{diary_content5},#{diary_reg_date},#{diary_public})
+	</insert>
+	 
+	 
+	<insert id="fileWrite">
+		INSERT INTO t2_diary_pic (pic_num, diary_number, orif, newf)
+			VALUES(photo_seq.NEXTVAL, #{param1}, #{param2}, #{param3})
+	</insert>
+	
+	<select id="tdButton" resultType="String">
+		SELECT id FROM t2_diary WHERE diary_number=#{param1}
+	</select>
+	
+	<delete id="tdPDelete">
+		DELETE FROM t2_diary_pic WHERE diary_number = #{param1}
+	</delete>
+	
+	<delete id="tdDelete">
+		DELETE FROM t2_diary WHERE diary_number = #{param1}
+	</delete>
+	 
+	 <select id="getDelFileName" resultType="String">
+		SELECT newf FROM t2_diary_pic WHERE diary_number=#{param1}
+	</select>
+	
+	<update id="tdUpdate" parameterType="hashmap">
+		UPDATE t2_diary SET diary_public=#{diary_public}, diary_subject = #{title}, diary_main = #{content0}, diary_content1=#{content1} WHERE diary_number=#{idx}
+	</update>
+	
+	<update id="tdUpdate2" parameterType="hashmap">
+		UPDATE t2_diary SET diary_public=#{diary_public}, diary_subject = #{title}, diary_main = #{content0}, diary_content1=#{content1}, diary_content2=#{content2} WHERE diary_number=#{idx}
+	</update>
+	
+	<update id="tdUpdate3" parameterType="hashmap">
+		UPDATE t2_diary SET diary_public=#{diary_public}, diary_subject = #{title}, diary_main = #{content0}, diary_content1=#{content1}, diary_content2=#{content2}, diary_content3=#{content3} WHERE diary_number=#{idx}
+	</update>
+	
+	<update id="tdUpdate4" parameterType="hashmap">
+		UPDATE t2_diary SET diary_public=#{diary_public}, diary_subject = #{title}, diary_main = #{content0}, diary_content1=#{content1}, diary_content2=#{content2}, diary_content3=#{content3}, diary_content4=#{content4} WHERE diary_number=#{idx}
+	</update>
+	
+	<update id="tdUpdate5" parameterType="hashmap">
+		UPDATE t2_diary SET diary_public=#{diary_public}, diary_subject = #{title}, diary_main = #{content0}, diary_content1=#{content1}, diary_content2=#{content2}, diary_content3=#{content3}, diary_content4=#{content4}, diary_content5=#{content5} WHERE diary_number=#{idx}
+	</update>
+	
+	<delete id="delPhoto">
+		DELETE FROM t2_diary_pic WHERE newf = #{param1}
+	</delete>
+	
+	
+	 
+</mapper>
+	

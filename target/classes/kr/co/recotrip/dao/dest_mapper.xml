@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 이 XML을 어떤 interface하고 연결할 것인가 -->
+<mapper namespace="kr.co.recotrip.dao.DestDAO">
+
+	<select id="destNameSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE d.dest_name LIKE '%'||#{param1}||'%' and d.dest_category!='음식점' and d.dest_category!='숙박시설' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="destAddrSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE a.dest_detail_addr LIKE '%'||#{param1}||'%' and d.dest_category!='음식점' and d.dest_category!='숙박시설' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="restaurantNameSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE d.dest_name LIKE '%'||#{param1}||'%' and d.dest_category='음식점' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="restaurantAddrSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE a.dest_detail_addr LIKE '%'||#{param1}||'%' and d.dest_category='음식점' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="accomNameSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE d.dest_name LIKE '%'||#{param1}||'%' and d.dest_category='숙박시설' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="accomAddrSearch" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE a.dest_detail_addr LIKE '%'||#{param1}||'%' and d.dest_category='숙박시설' ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="accomAddrSearchCount" resultType="int">
+		select count(*) from (SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE a.dest_detail_addr LIKE '%'||#{param1}||'%' and d.dest_category='숙박시설')
+	</select>
+ 	
+ 	<update id="upHit">
+		UPDATE t2_dest SET dest_bHit = dest_bHit+1 WHERE dest_num=#{param1}
+	</update>
+	
+	<select id="getBhit" parameterType="String" resultType="int">
+ 		SELECT dest_bHit FROM t2_dest WHERE dest_num=#{param1}
+ 	</select>
+	
+	<select id="getRating" parameterType="String" resultType="int">
+ 		SELECT rating FROM t2_rating WHERE dest_num=#{param1}
+ 	</select>
+ 	
+ 	<select id="leportsReco" parameterType="String" resultType="search">
+    		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE d.dest_category LIKE '%'||'레포츠'||'%' 
+    		and d.dest_who=#{param1} and a.dest_do=#{param2} and (ROWNUM  BETWEEN 1 and 5) ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="cultureReco" parameterType="String" resultType="search">
+ 		 SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE (d.dest_category ='문화시설' or d.dest_category='건축/조형물' or d.dest_category='체험관광지')
+    		and d.dest_who=#{param1} and a.dest_do=#{param2} and (ROWNUM  BETWEEN 1 and 5) ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="tourReco" parameterType="String" resultType="search">
+ 		SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE d.dest_category LIKE '%'||'관광지'||'%' 
+    		and d.dest_who=#{param1} and a.dest_do=#{param2} and (ROWNUM  BETWEEN 1 and 5) ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+ 	
+ 	<select id="healingReco" parameterType="String" resultType="search">
+ 		 		 SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE (d.dest_category ='휴양관광지' or d.dest_category='자연관광지')
+    		and d.dest_who=#{param1} and a.dest_do=#{param2} and (ROWNUM  BETWEEN 1 and 5) ORDER BY TO_NUMBER(d.dest_bHit) DESC
+ 	</select>
+	
+	<select id="noResultReco" parameterType="String" resultType="search">
+ 		 	 SELECT * FROM
+ 			(SELECT d.dest_num, d.dest_name, a.dest_detail_addr, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a
+    		ON d.dest_num = a.dest_num INNER JOIN t2_dest_pic p ON a.dest_num = p.dest_num 
+    		WHERE a.dest_do=#{param1} and d.dest_category!='음식점' and d.dest_category!='숙박시설'
+            ORDER BY DBMS_RANDOM.VALUE) 
+            where ROWNUM  BETWEEN 1 and 5
+ 	</select>
+ 	
+ 	<select id="getLong" parameterType="String" resultType="double">
+ 		SELECT dest_long FROM T2_DEST_ADDR WHERE dest_num = #{param1}
+ 	</select>
+ 	
+ 	<select id="getLat" parameterType="String" resultType="double">
+ 		SELECT dest_lat FROM T2_DEST_ADDR WHERE dest_num = #{param1}
+ 	</select>
+ 	
+ 	<select id="getName" parameterType="String" resultType="String">
+ 		SELECT DEST_NAME FROM T2_DEST WHERE dest_num = #{param1}
+ 	</select>
+	
+	<select id="getYoutubeData" parameterType="String" resultType="hashmap">
+ 		SELECT * FROM
+		(SELECT d.dest_num, d.dest_name, p.dest_pic_url FROM t2_dest d INNER JOIN t2_dest_addr a ON d.dest_num = a.dest_num 
+		INNER JOIN t2_youtube_data y ON a.dest_num = y.dest_num INNER JOIN t2_dest_pic p ON y.dest_num = p.dest_num WHERE
+		a.dest_do =#{param1} and d.dest_category!='쇼핑' and d.dest_category!='산업관광지' and d.dest_category not like '%'||'레포츠'||'%' 
+		ORDER BY TO_NUMBER(y.view_count) DESC) WHERE ROWNUM  BETWEEN 1 and 10
+ 	</select>
+	
+</mapper>
+	

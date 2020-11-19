@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+
+<mapper namespace="kr.co.recotrip.dao.ReviewDAO">
+	<!-- 내가 한 부분 -->
+
+ 	<select id="reviewlist" resultType="hashmap">
+		select * from (SELECT ROWNUM rnum, A.* FROM (SELECT  r.review_num,r.dest_num,r.review_content,r.id,r.review_reg_data,ra.rating
+		FROM t2_review r INNER JOIN t2_rating ra ON r.dest_num = ra.dest_num and r.id = ra.id WHERE r.dest_num=#{param2} order by review_num desc) A) WHERE rnum between #{arg0.start} AND #{arg0.end}
+	</select>
+	
+	<insert id="reviewwrite" parameterType="String">
+		insert into t2_review (review_num,dest_num,id,review_content,review_reg_data) values (t2_review_seq.NEXTVAL,#{param3},#{param1},#{param2},sysdate)
+	</insert>
+	
+	<update id="reviewupdate" parameterType="String">
+		update t2_review set review_content=#{param2},review_reg_data=sysdate where review_num=#{param1}
+	</update>
+	
+	<delete id="reviewdelete" parameterType="String">
+		delete t2_review where review_num=#{param1}
+	</delete>
+	
+	<delete id="ratingDelete" parameterType="String">
+		delete t2_rating where id=#{param1} AND dest_num=#{param2}
+	</delete>
+	
+	<insert id="rating" parameterType="String">
+		insert into t2_rating (rating_num,dest_num,id,rating) values (t2_rating_seq.NEXTVAL,#{param3},#{param1},#{param2})
+	</insert>
+	
+ 	<select id="countBoard" resultType="int">
+		select count(*) from t2_review where dest_num=#{param1}
+	</select>
+	
+	<select id="over" resultType="int">
+		select count(*) from t2_review where id=#{param1} and dest_num=#{param2}
+	</select>
+	
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+
+<mapper namespace="kr.co.recotrip.dao.MemberDAO">
+	<select id="login" resultType="string">
+		SELECT id FROM T2_MEMBER WHERE id=#{param1} AND pw=#{param2}
+	</select>
+	
+	<insert id="join" parameterType="hashMap">
+		INSERT INTO T2_MEMBER(id,pw,name,email,phone) 
+		VALUES(#{id}, #{pw}, #{name}, #{email}, #{phone})
+	</insert>
+	
+	<select id="overlay" resultType="int">
+		SELECT COUNT(id) FROM T2_MEMBER WHERE id = #{param1}
+	</select>
+	
+	<select id="overlay2" resultType="int">
+		SELECT COUNT(id) FROM T2_DEL_MEMBER WHERE id = #{param1}
+	</select>
+	
+</mapper>

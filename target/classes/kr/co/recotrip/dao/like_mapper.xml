@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 이 XML을 어떤 interface하고 연결할 것인가 -->
+<mapper namespace="kr.co.recotrip.dao.LikeDAO">
+ 	
+ 	<select id="getLikeCnt" parameterType="String" resultType="int">
+ 		SELECT count(*) FROM t2_diary_like WHERE diary_number=#{param1}
+ 	</select>
+	
+	<insert id="like" parameterType="String">
+		insert into t2_diary_like (like_num, diary_number, id) values
+		 (t2_like_seq.NEXTVAL,#{param1},#{param2})
+	</insert>
+	
+	<delete id="disLike">
+		DELETE FROM t2_diary_like WHERE diary_number=#{param1} AND id = #{param2}
+	</delete>
+	
+	<select id="likeCheck" parameterType="String" resultType="int">
+ 		SELECT count(*) FROM t2_diary_like WHERE diary_number=#{param1} AND id = #{param2}
+ 	</select>
+</mapper>
+	

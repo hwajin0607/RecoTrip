@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+>
+
+<mapper namespace="kr.co.recotrip.dao.MypageDAO">
+
+	<select id="checkPW" resultType="string">
+		SELECT pw FROM t2_member WHERE id=#{param1} AND PW=#{param2}
+	</select>
+	
+	<select id="myDtList" resultType="hashmap">
+		SELECT diary_number, diary_subject, diary_reg_date FROM t2_diary WHERE id=#{param1} ORDER BY TO_NUMBER(diary_number) DESC
+	</select>
+	
+	<select id="myReviewList" resultType="hashmap">
+		SELECT r.dest_num,r.review_content,r.id,r.review_reg_data,ra.rating, d.dest_name
+      FROM t2_review r INNER JOIN t2_rating ra ON r.dest_num = ra.dest_num 
+      INNER JOIN t2_dest d ON ra.dest_num = d.dest_num and r.id = ra.id WHERE r.id=#{param1} ORDER BY r.review_reg_data DESC
+	</select>
+	
+	<select id="myReplyList" resultType="hashmap">
+		SELECT  dr.reply_content, dr.reply_reg_date, dr.diary_number, d.diary_subject
+		FROM t2_diary_reply dr INNER JOIN t2_diary d ON dr.diary_number = d.diary_number WHERE dr.id = #{param1} ORDER BY dr.reply_num DESC
+	</select>
+	
+	<select id="myLikeList" resultType="hashmap">
+		SELECT  d.diary_subject, d.diary_number, d.diary_reg_date
+		FROM t2_diary_like dr INNER JOIN t2_diary d ON dr.diary_number = d.diary_number WHERE dr.id = #{param1} ORDER BY d.diary_number DESC
+	</select>
+	
+	<select id="toMypageMemberUpdateForm" resultType="hashmap" parameterType="String">
+		SELECT * FROM T2_MEMBER WHERE id=#{param1}
+	</select>
+	
+	<update id="mypageMemberUpdate" parameterType="hashMap">
+		UPDATE T2_MEMBER
+			<set>
+				<if test="!pw.equals('')">pw=#{pw}</if>
+			</set>
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="myPageMemberDel">
+		DELETE FROM T2_MEMBER WHERE id=#{param1}
+	</delete>
+	
+	<insert id="myPageMemberMove" parameterType="hashMap">
+		INSERT INTO T2_DEL_MEMBER (deleted_num, id, deleted_date, reason)
+		VALUES (t2_deleted_num_seq.NEXTVAL, #{param1}, SYSDATE, #{param2})
+	</insert>
+	
+	<select id="myAskList" resultType="hashmap">
+		SELECT ask_num, ask_subject, ask_reg_date FROM t2_ASK WHERE id=#{param1} ORDER BY ask_num DESC
+		</select>
+	
+</mapper>
