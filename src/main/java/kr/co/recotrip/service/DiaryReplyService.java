@@ -14,6 +14,7 @@ import kr.co.recotrip.dto.DiaryReplyDTO;
 
 @Service
 public class DiaryReplyService {
+	//내가 한 부분
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired DiaryReplyDAO dao;

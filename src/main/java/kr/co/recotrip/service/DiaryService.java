@@ -34,31 +34,11 @@ public class DiaryService {
 	@Value("#{config['Globals.root']}") String root;
 	private String fullpath = null;
 	
+	//내가 한 부분 - 검색 기능
 	public ArrayList<DiaryDTO> tdList(PagingVO vo, String search_option,String keyword) {
 		logger.info("search_option:"+search_option+"keyword:"+keyword);
-		//ModelAndView mav =new ModelAndView();
-
-		//ArrayList<DiaryDTO> diaryList = dao.tdList(vo);
-		
-		//mav.addObject("diaryList",diaryList);
-		//logger.info("diaryList : {}",diaryList);
-		
 		return dao.tdList(vo,search_option,keyword);
 	}
-	/*
-	public ModelAndView tdListP(PagingVO vo, String diary_number) {
-		
-		ModelAndView mav =new ModelAndView();
-
-		ArrayList<DiaryDTO> diaryList = dao.tdList();
-		
-		mav.addObject("diaryList",diaryList);
-		logger.info("diaryList : {}",diaryList);
-		
-		
-		return mav;
-	}
-	*/
 
 	public ModelAndView tdDetail(String idx) {
 		

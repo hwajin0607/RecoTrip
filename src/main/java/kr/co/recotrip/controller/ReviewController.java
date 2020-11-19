@@ -20,6 +20,7 @@ import kr.co.recotrip.service.ReviewService;
 
 @Controller
 public class ReviewController {
+	//내가 한 부분
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired ReviewService service;

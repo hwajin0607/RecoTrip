@@ -24,6 +24,7 @@ import kr.co.recotrip.service.ReviewService;
 
 @Controller
 public class DiaryReplyController {
+	//내가 한 부분
 	
 	private static final Logger logger = LoggerFactory.getLogger(DiaryReplyController.class);
 	@Autowired DiaryReplyService service;

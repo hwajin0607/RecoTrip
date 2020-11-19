@@ -17,6 +17,7 @@ import kr.co.recotrip.dto.ReviewDTO;
 
 @Service
 public class ReviewService {
+	//내가 한 부분
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired ReviewDAO dao;

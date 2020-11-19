@@ -130,21 +130,28 @@
 			body > h2{
 				text-align: center;
 			}
+			.commentAll{
+		        position: absolute;
+			    width: 92%;
+			    left: 7%;
+			    padding-bottom: 3%;
+			}
 			.comment{
 			    position: relative;
-			    left: 25%;
+			    left: 18%;
 			    height: 70px;
-			    width: 80%;
+			    width: 90%;
 			    top: 138%;
+			    margin-bottom: 1%;
 			}
 			.con{
 				width:60%;
 				height: 30px;
 			}
 			.commentList{
-			    position: relative;
-			    left: 25%;
-			    width: 51%;
+			   	position: relative;
+			    left: 18%;
+			    width: 58%;
 			    height: auto;
 			}
 			.btnt{
@@ -165,12 +172,7 @@
 			[name=commentForm]{
 				margin-top: 4px;
 			}
-			.commentAll{
-			    position: absolute;
-			    width: 86%;
-			    left: 7%;
-		        padding-bottom: 3%;
-			}
+
 			/* 좋아요------------------------------------ */
 			#likeBox{
 				position:relative;

@@ -5,6 +5,7 @@ import java.util.List;
 import kr.co.recotrip.dto.DiaryReplyDTO;
 
 public interface DiaryReplyDAO {
+	//내가 한 부분
 
 	List<DiaryReplyDTO> commentList(String tdIdx,int start,int end);
 

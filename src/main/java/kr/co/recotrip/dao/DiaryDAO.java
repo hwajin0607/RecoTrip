@@ -15,6 +15,7 @@ public interface DiaryDAO {
 
 	int countBoard();
 	
+	//내가 한 부분 - 검색 기능
 	ArrayList<DiaryDTO> tdList(PagingVO vo, String search_option,String keyword);
 
 	DiaryDTO tdDetail(String idx);

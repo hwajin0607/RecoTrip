@@ -8,7 +8,7 @@ import kr.co.recotrip.dto.PagingVO;
 import kr.co.recotrip.dto.ReviewDTO;
 
 public interface ReviewDAO {
-
+	//내가 한 부분
 	
 	List<HashMap<String, Object>> reviewlist(PagingVO vo, String dest_num);
 

@@ -31,7 +31,7 @@ public class DiaryController {
 	
 	@Autowired DiaryService service;
 
-	
+	//내가 한 부분 - 검색 기능
 	@RequestMapping(value = "/tdList", method = RequestMethod.GET)
 	public ModelAndView tdList(@RequestParam(defaultValue = "all") String search_option, @RequestParam(defaultValue = "") String keyword, Model model,PagingVO vo ,@RequestParam(value="nowPage", required=false)String nowPage
 			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {

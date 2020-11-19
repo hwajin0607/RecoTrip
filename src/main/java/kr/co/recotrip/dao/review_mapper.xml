@@ -5,6 +5,7 @@
 >
 
 <mapper namespace="kr.co.recotrip.dao.ReviewDAO">
+	<!-- 내가 한 부분 -->
 
  	<select id="reviewlist" resultType="hashmap">
 		select * from (SELECT ROWNUM rnum, A.* FROM (SELECT  r.review_num,r.dest_num,r.review_content,r.id,r.review_reg_data,ra.rating

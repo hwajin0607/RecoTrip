@@ -6,6 +6,7 @@
 <!-- 이 XML을 어떤 interface하고 연결할 것인가 -->
 <mapper namespace="kr.co.recotrip.dao.DiaryDAO">
 
+	<!-- 내가 한 부분 - 검색 기능 -->
 	<select id="tdList" resultType="diary">
 	
 		select * from (select ROWNUM rnum, A.* from (select * from t2_diary where diary_public=1 <include refid="search"/>order by diary_number desc) A)

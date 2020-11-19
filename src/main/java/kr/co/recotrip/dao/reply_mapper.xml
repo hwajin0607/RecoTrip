@@ -5,6 +5,7 @@
 >
 
 <mapper namespace="kr.co.recotrip.dao.DiaryReplyDAO">
+	<!-- 내가 한 부분 -->
 	
 	<select id="commentList" resultType="diaryReply">
 		select * from (select ROWNUM rnum, A.* from (select * from t2_diary_reply where diary_number=#{param1} order by reply_num desc) A)

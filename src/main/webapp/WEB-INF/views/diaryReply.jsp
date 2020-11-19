@@ -8,7 +8,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script> 
         <style>
-        			body{
+   			body{
 				overflow-x:hidden;
 				overflow-y:auto;  
 			}
@@ -60,7 +60,7 @@
 			}
 			.pagination{
 				position:relative;
-				left:35%;
+				left:26%;
 
 			}
 			
