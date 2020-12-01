@@ -65,10 +65,11 @@
 			}
 			
 			.pagination a{
-				color: black;
+				color: grey;
 			}		
 			.pagination a:hover{
 				color: blue;
+				font-weight: 600;
 			}
 			.container{
 				position:relative;
@@ -155,7 +156,8 @@
 						visiblePages: 5,	//보여줄 페이지 수
 						onPageClick: function (event, page) {
 							console.log(event);
-							console.log(page);
+							console.log("현재 페이지 : "+page);
+							sessionStorage.setItem('page', page);
 							listCall(page);
 						}
 					});
@@ -233,7 +235,8 @@
 		        data : {'upContent' : upContent, 'reNum' : reNum},
 		        success : function(data){
 	           		 if(data == 1){
-	                     location.reload();
+	           			var page = sessionStorage.getItem('page');
+	           			listCall(page);
 		           	}
 		        },
 				error:function(error){
@@ -251,7 +254,8 @@
 			data : {reNum},
 	        success : function(data){
 	            if(data == 1){
-	            	location.reload();
+	            	var page = sessionStorage.getItem('page');
+           			listCall(page);
 	            	commentCount();
 	            }
 	        },
